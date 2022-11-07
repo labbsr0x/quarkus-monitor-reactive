@@ -1,0 +1,108 @@
+
+:summaryTableId: quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference, cols="80,.^10,.^10"]
+|===
+
+h|[[quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_configuration]]link:#quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_configuration[Configuration property]
+
+h|Type
+h|Default
+
+a|icon:lock[title=Fixed at build time] [[quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.enable]]`link:#quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.enable[quarkus.b5.monitor.enable]`
+
+[.description]
+--
+Enable the extension.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_B5_MONITOR_ENABLE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_B5_MONITOR_ENABLE+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`true`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.path]]`link:#quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.path[quarkus.b5.monitor.path]`
+
+[.description]
+--
+Define the path where the metrics are exposed.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_B5_MONITOR_PATH+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_B5_MONITOR_PATH+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`/metrics`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.buckets]]`link:#quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.buckets[quarkus.b5.monitor.buckets]`
+
+[.description]
+--
+Define the path where the metrics are exposed.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_B5_MONITOR_BUCKETS+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_B5_MONITOR_BUCKETS+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`0.1, 0.3, 1.5, 10.5`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.exclusions]]`link:#quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.exclusions[quarkus.b5.monitor.exclusions]`
+
+[.description]
+--
+Define the paths where the b5 metrics are not apply.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_B5_MONITOR_EXCLUSIONS+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_B5_MONITOR_EXCLUSIONS+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`/metrics`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.enable-http-response-size]]`link:#quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.enable-http-response-size[quarkus.b5.monitor.enable-http-response-size]`
+
+[.description]
+--
+Define to turn on or off the http response size, default false
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_B5_MONITOR_ENABLE_HTTP_RESPONSE_SIZE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_B5_MONITOR_ENABLE_HTTP_RESPONSE_SIZE+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`false`
+
+
+a|icon:lock[title=Fixed at build time] [[quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.error-message]]`link:#quarkus-b5-monitor-br-com-labbs-quarkusmonitor-reactive-config-metrics-b5-configuration_quarkus.b5.monitor.error-message[quarkus.b5.monitor.error-message]`
+
+[.description]
+--
+Define the key for error messages put in the request attribute
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_B5_MONITOR_ERROR_MESSAGE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_B5_MONITOR_ERROR_MESSAGE+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`error-info`
+
+|===
