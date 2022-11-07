@@ -47,6 +47,21 @@
     <tag>HEAD</tag>
   </scm>
   
+  <developers>
+  	<developer>
+      <email>gilliardmacedo@gmail.com</email>
+      <name>Gilliard Macedo</name>
+    </developer>
+    <developer>
+      <email>marcelorubim@gmail.com</email>
+      <name>Marcelo Rubim</name>
+    </developer>
+    <developer>
+      <email>carlospanarello@gmail.com</email>
+      <name>Carlos E Panarelo</name>
+    </developer>
+  </developers>
+  
   <distributionManagement>
     <repository>
       <id>ossrh</id>
