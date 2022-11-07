@@ -7,6 +7,8 @@
   <url>https://github.com/labbsr0x/quarkus-monitor-reactive/</url>
   <packaging>pom</packaging>
   <name>Quarkus Monitor Reactive - Parent</name>
+  <description>Big Brother Metrics for Quarkus Resteasy Reactive applications</description>
+  
   <modules>
     <module>deployment</module>
     <module>runtime</module>
@@ -39,6 +41,14 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  
+  <licenses>
+    <license>
+      <distribution>repo</distribution>
+      <name>MIT license</name>
+      <url>https://spdx.org/licenses/MIT.html</url>
+    </license>
+  </licenses>
   
   <scm>
     <connection>scm:git:https://github.com/labbsr0x/quarkus-monitor-reactive/</connection>
