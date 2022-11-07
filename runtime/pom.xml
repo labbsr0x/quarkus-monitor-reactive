@@ -25,12 +25,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive</artifactId>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-client-reactive</artifactId>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
@@ -63,6 +61,19 @@
           </annotationProcessorPaths>
         </configuration>
       </plugin>
+      <plugin>
+	      <groupId>org.jboss.jandex</groupId>
+	      <artifactId>jandex-maven-plugin</artifactId>
+	      <version>${jandex-maven-plugin-version}</version>
+	      <executions>
+	        <execution>
+	          <id>make-index</id>
+	          <goals>
+	            <goal>jandex</goal>
+	          </goals>
+	        </execution>
+	      </executions>
+	    </plugin>
     </plugins>
   </build>
 </project>

@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.ws.rs.Path;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.ext.WriterInterceptorContext;
 
 import org.eclipse.microprofile.config.ConfigProvider;
@@ -36,7 +37,6 @@ public class FilterUtils {
           .map(String::trim)
           .collect(Collectors.toList());
   private static final String REST_CLIENT_METHOD = "org.eclipse.microprofile.rest.client.invokedMethod";
-  private static final String RESOURCE_METHOD_INVOKER = "org.jboss.resteasy.core.ResourceMethodInvoker";
 
   private FilterUtils() {
   }
@@ -74,12 +74,9 @@ public class FilterUtils {
     return extractPathWithParamFromMethod(method, request.getUri().getPath());
   }
 
-  public static String toPathWithParamId(ContainerRequestContext request) {
-	  List<String> matchedURIs = request.getUriInfo().getMatchedURIs();
-	  if (!matchedURIs.isEmpty()) {
-		  return matchedURIs.get(0);
-	  }
-	  return "failed to decode";
+  public static String toPathWithParamId(ContainerRequestContext request, ResourceInfo resourceInfo) {
+	  Method resourceMethod = resourceInfo.getResourceMethod();
+	  return extractPathWithParamFromMethod(resourceMethod, request.getUriInfo().getPath());
   }
 
   private static String extractPathWithParamFromMethod(Method method, String defaultPath) {
@@ -94,7 +91,11 @@ public class FilterUtils {
     }
 
     if (method.getAnnotation(Path.class) != null) {
-      pathWithParam = pathWithParam + method.getAnnotation(Path.class).value();
+      String methodValue = method.getAnnotation(Path.class).value();
+      if (methodValue != null && !methodValue.startsWith("/")) {
+    	  methodValue = "/" + methodValue;
+      }
+      pathWithParam = pathWithParam + methodValue;
     }
 
     return pathWithParam.isEmpty() ? defaultPath : pathWithParam;
