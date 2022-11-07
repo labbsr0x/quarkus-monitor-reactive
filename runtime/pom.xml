@@ -4,7 +4,7 @@
   <parent>
     <groupId>br.com.labbs</groupId>
     <artifactId>quarkus-monitor-reactive-parent</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
   </parent>
   <artifactId>quarkus-monitor-reactive</artifactId>
   <name>Quarkus Monitor Reactive - Runtime</name>
