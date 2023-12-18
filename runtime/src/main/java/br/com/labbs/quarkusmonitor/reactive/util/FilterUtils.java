@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.inject.Named;
-import javax.ws.rs.Path;
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.ext.WriterInterceptorContext;
+import jakarta.inject.Named;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ResourceInfo;
+import jakarta.ws.rs.ext.WriterInterceptorContext;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 
