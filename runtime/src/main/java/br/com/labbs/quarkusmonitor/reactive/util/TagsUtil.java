@@ -1,13 +1,13 @@
 package br.com.labbs.quarkusmonitor.reactive.util;
 
 import java.util.Optional;
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientResponseContext;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.ext.WriterInterceptorContext;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientResponseContext;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerResponseContext;
+import jakarta.ws.rs.core.Request;
+import jakarta.ws.rs.core.UriInfo;
+import jakarta.ws.rs.ext.WriterInterceptorContext;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 public class TagsUtil {
