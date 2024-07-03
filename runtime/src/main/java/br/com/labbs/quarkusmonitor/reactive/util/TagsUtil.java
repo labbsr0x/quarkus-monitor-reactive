@@ -1,5 +1,6 @@
 package br.com.labbs.quarkusmonitor.reactive.util;
 
+import java.util.Objects;
 import java.util.Optional;
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientResponseContext;
@@ -86,10 +87,12 @@ public class TagsUtil {
 
   private static String extractMessageError(ClientRequestContext request,
       ClientResponseContext response) {
-    if (response.getHeaders().getFirst(ERROR_MESSAGE_KEY) != null) {
-      return response.getHeaderString(ERROR_MESSAGE_KEY);
+    if (Objects.nonNull(response) &&
+            Objects.nonNull(response.getHeaders()) &&
+            Objects.nonNull(response.getHeaders().getFirst(ERROR_MESSAGE_KEY))) {
+      return response.getHeaders().getFirst(ERROR_MESSAGE_KEY);
     }
-    if (request.getProperty(ERROR_MESSAGE_KEY) != null) {
+    if (Objects.nonNull(request.getProperty(ERROR_MESSAGE_KEY))) {
       return request.getProperty(ERROR_MESSAGE_KEY).toString();
     }
     return "";
