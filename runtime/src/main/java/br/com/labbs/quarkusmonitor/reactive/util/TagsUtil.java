@@ -64,7 +64,7 @@ public class TagsUtil {
 
   private static String extractMessageError(ContainerRequestContext request,
       ContainerResponseContext response) {
-    if (response.getHeaders().getFirst(ERROR_MESSAGE_KEY) != null) {
+    if (Objects.nonNull(response.getHeaders().getFirst(ERROR_MESSAGE_KEY))) {
       return response.getHeaderString(ERROR_MESSAGE_KEY);
     }
 
