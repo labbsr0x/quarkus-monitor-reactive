@@ -63,7 +63,7 @@ public class TagsUtil {
 
   private static String extractMessageError(ContainerRequestContext request,
       ContainerResponseContext response) {
-    if (response.getHeaderString(ERROR_MESSAGE_KEY) != null) {
+    if (response.getHeaders().getFirst(ERROR_MESSAGE_KEY) != null) {
       return response.getHeaderString(ERROR_MESSAGE_KEY);
     }
 
@@ -86,7 +86,7 @@ public class TagsUtil {
 
   private static String extractMessageError(ClientRequestContext request,
       ClientResponseContext response) {
-    if (response.getHeaderString(ERROR_MESSAGE_KEY) != null) {
+    if (response.getHeaders().getFirst(ERROR_MESSAGE_KEY) != null) {
       return response.getHeaderString(ERROR_MESSAGE_KEY);
     }
     if (request.getProperty(ERROR_MESSAGE_KEY) != null) {
