@@ -64,7 +64,9 @@ public class TagsUtil {
 
   private static String extractMessageError(ContainerRequestContext request,
       ContainerResponseContext response) {
-    if (Objects.nonNull(response.getHeaders().getFirst(ERROR_MESSAGE_KEY))) {
+    if (Objects.nonNull(response) &&
+            Objects.nonNull(response.getHeaders()) &&
+            Objects.nonNull(response.getHeaders().getFirst(ERROR_MESSAGE_KEY))) {
       return response.getHeaderString(ERROR_MESSAGE_KEY);
     }
 
@@ -75,7 +77,9 @@ public class TagsUtil {
   }
 
   private static String extractMessageError(WriterInterceptorContext context) {
-    if (context.getHeaders().containsKey(ERROR_MESSAGE_KEY)) {
+    if (Objects.nonNull(context) &&
+            Objects.nonNull(context.getHeaders()) &&
+            context.getHeaders().containsKey(ERROR_MESSAGE_KEY)) {
       return context.getHeaders().get(ERROR_MESSAGE_KEY).get(0).toString();
     }
 
