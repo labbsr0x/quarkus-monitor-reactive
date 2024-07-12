@@ -35,7 +35,7 @@ public class FilterUtils {
               .split(","))
           .map(Object::toString)
           .map(String::trim)
-          .collect(Collectors.toList());
+          .toList();
   private static final String REST_CLIENT_METHOD = "org.eclipse.microprofile.rest.client.invokedMethod";
 
   private FilterUtils() {
@@ -50,9 +50,8 @@ public class FilterUtils {
   }
 
   public static String extractClassNameFromMethod(ClientRequestContext request) {
-    if (request.getProperty(REST_CLIENT_METHOD) instanceof Method) {
-      var method = (Method) request.getProperty(REST_CLIENT_METHOD);
-      var annotation = method.getDeclaringClass().getAnnotation(Named.class);
+    if (request.getProperty(REST_CLIENT_METHOD) instanceof Method method) {
+        var annotation = method.getDeclaringClass().getAnnotation(Named.class);
 
       if (annotation != null && !annotation.value().isBlank()) {
         return tagConvert(annotation.value());
@@ -65,13 +64,11 @@ public class FilterUtils {
   }
 
   public static String toPathWithParamId(ClientRequestContext request) {
-    Method method = null;
-
-    if (request.getProperty(REST_CLIENT_METHOD) instanceof Method) {
-      method = (Method) request.getProperty(REST_CLIENT_METHOD);
+    if (request.getProperty(REST_CLIENT_METHOD) instanceof Method method) {
+      return extractPathWithParamFromMethod(method, request.getUri().getPath());
     }
 
-    return extractPathWithParamFromMethod(method, request.getUri().getPath());
+    return extractPathWithParamFromMethod(null, request.getUri().getPath());
   }
 
   public static String toPathWithParamId(ContainerRequestContext request, ResourceInfo resourceInfo) {
@@ -95,7 +92,7 @@ public class FilterUtils {
       if (methodValue != null && !methodValue.startsWith("/")) {
     	  methodValue = "/" + methodValue;
       }
-      pathWithParam = pathWithParam + methodValue;
+      pathWithParam = ("/".equals(pathWithParam)? "": pathWithParam) + methodValue;
     }
 
     return pathWithParam.isEmpty() ? defaultPath : pathWithParam;

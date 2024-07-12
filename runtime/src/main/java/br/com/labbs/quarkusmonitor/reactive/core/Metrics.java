@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import jakarta.enterprise.inject.spi.CDI;
 import org.eclipse.microprofile.config.ConfigProvider;
@@ -67,7 +68,15 @@ public class Metrics {
     createTimer(DEPENDENCY_REQUEST,
         "records in a histogram the number of requests of a dependency and their duration in seconds",
         tagWithValue(tagsKeysDependency, tagsValues),
-        secondsToMilliseconds(seconds), ChronoUnit.MILLIS);
+        secondsToMilliseconds(seconds), ChronoUnit.MILLIS,durationBucketDefaultFunction);
+  }
+
+
+  public static void dependencyRequestSeconds(String[] tagsValues, double seconds, BiFunction<double[], TemporalUnit, Duration[]> bucketFunction) {
+    createTimer(DEPENDENCY_REQUEST,
+        "records in a histogram the number of requests of a dependency and their duration in seconds",
+        tagWithValue(tagsKeysDependency, tagsValues),
+        secondsToMilliseconds(seconds), ChronoUnit.MILLIS, bucketFunction);
   }
 
   /**
@@ -81,25 +90,31 @@ public class Metrics {
     createTimer(REQUEST,
         "records in a histogram the number of http requests and their duration in seconds",
         tagWithValue(tagsKeysRequest, tagsValues),
-        secondsToMilliseconds(seconds), ChronoUnit.MILLIS);
+        secondsToMilliseconds(seconds), ChronoUnit.MILLIS, durationBucketDefaultFunction);
+  }
+
+  public static void requestSeconds(String[] tagsValues, double seconds, BiFunction<double[], TemporalUnit, Duration[]> bucketFunction) {
+    createTimer(REQUEST,
+        "records in a histogram the number of http requests and their duration in seconds",
+        tagWithValue(tagsKeysRequest, tagsValues),
+        secondsToMilliseconds(seconds), ChronoUnit.MILLIS, bucketFunction);
   }
 
   private static void createTimer(String name, String description, Iterable<Tag> tags,
-      long value, TemporalUnit unit) {
+      long value, TemporalUnit unit, BiFunction<double[], TemporalUnit, Duration[]> bucketFunction) {
     Optional.ofNullable(registry.find(name).tags(tags).timer()).ifPresentOrElse(
         metric -> metric.record(Duration.of(value, unit)),
         () -> Timer.builder(name)
             .description(description)
             .tags(tags)
-            .serviceLevelObjectives(createDuration(bucketsValues, unit))
+            .serviceLevelObjectives(bucketFunction.apply(bucketsValues, unit))
             .register(registry)
             .record(Duration.of(value, unit))
     );
   }
 
-  private static Duration[] createDuration(double[] values, TemporalUnit unit) {
-    return Arrays.stream(values).mapToObj(v -> Duration.of(secondsToMilliseconds(v), unit)).toArray(Duration[]::new);
-  }
+  private static final BiFunction<double[], TemporalUnit, Duration[]> durationBucketDefaultFunction =
+      (values, unit) -> Arrays.stream(values).mapToObj(v -> Duration.of(secondsToMilliseconds(v), unit)).toArray(Duration[]::new);
 
   private static long secondsToMilliseconds(double seconds) {
     var result = seconds * 1000;

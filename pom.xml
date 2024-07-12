@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>br.com.labbs</groupId>
   <artifactId>quarkus-monitor-reactive-parent</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <version>3.8.0-SNAPSHOT</version>
   <url>https://github.com/labbsr0x/quarkus-monitor-reactive/</url>
   <packaging>pom</packaging>
   <name>Quarkus Monitor Reactive - Parent</name>
@@ -17,10 +17,10 @@
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <failsafe-plugin.version>${surefire-plugin.version}</failsafe-plugin.version>
-    <maven.compiler.release>11</maven.compiler.release>
+    <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.version>3.2.9.Final</quarkus.version>
+    <quarkus.version>3.8.5</quarkus.version>
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
     <micrometer-registry-prometheus.version>1.12.1</micrometer-registry-prometheus.version>
     <maven-gpg-plugin-version>1.6</maven-gpg-plugin-version>
