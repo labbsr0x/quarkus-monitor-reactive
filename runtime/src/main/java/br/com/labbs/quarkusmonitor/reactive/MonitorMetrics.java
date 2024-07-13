@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
@@ -97,6 +100,23 @@ public class MonitorMetrics {
     }
   }
 
+  private final Function<DependencyEvent, String[]> dependencyEventFunction = event -> new String[]{
+      event.getName(),
+      event.getType(),
+      event.getStatus(),
+      event.getMethod(),
+      event.getAddress(),
+      event.getIsError(),
+      event.getErrorMessage()};
+
+  private final Function<RequestEvent, String[]> requestEventFunction = event -> new String[]{
+      event.getType(),
+      event.getStatus(),
+      event.getMethod(),
+      event.getAddress(),
+      event.getIsError(),
+      event.getErrorMessage()};
+
   /**
    * Add a dependency event to be monitored with elapsed time
    *
@@ -104,16 +124,29 @@ public class MonitorMetrics {
    * @param elapsedSeconds time in seconds to be register in metric
    */
   public void addDependencyEvent(DependencyEvent event, double elapsedSeconds) {
-    var labels = new String[]{
-        event.getName(),
-        event.getType(),
-        event.getStatus(),
-        event.getMethod(),
-        event.getAddress(),
-        event.getIsError(),
-        event.getErrorMessage()};
+    Metrics.dependencyRequestSeconds(dependencyEventFunction.apply(event), elapsedSeconds);
+  }
 
-    Metrics.dependencyRequestSeconds(labels, elapsedSeconds);
+  /**
+   * Add a dependency event to be monitored with elapsed time with bucket list using ChronoUnit.MILLIS as timeunit
+   * @param event properties of event to be monitored
+   * @param elapsedSeconds time in seconds to be register in metric
+   * @param bucketList array of double for bucket list in Dependency event
+   */
+  public void addDependencyEvent(DependencyEvent event, double elapsedSeconds, double[] bucketList) {
+    addDependencyEvent(event, elapsedSeconds, bucketList, ChronoUnit.MILLIS);
+  }
+
+  /**
+   * Add a dependency event to be monitored with elapsed time
+   *
+   * @param event properties of event to be monitored
+   * @param elapsedSeconds time in seconds to be register in metric
+   * @param bucketList array of double for bucket list in Dependency event
+   * @param metricUnit time unit for bucket list and metric
+   */
+  public void addDependencyEvent(DependencyEvent event, double elapsedSeconds, double[] bucketList, TemporalUnit metricUnit) {
+    Metrics.dependencyRequestSeconds(dependencyEventFunction.apply(event), elapsedSeconds, bucketList, metricUnit);
   }
 
   /**
@@ -132,15 +165,30 @@ public class MonitorMetrics {
    * @param elapsedSeconds time in seconds to be register in metric
    */
   public void addRequestEvent(RequestEvent event, double elapsedSeconds) {
-    var labels = new String[]{
-        event.getType(),
-        event.getStatus(),
-        event.getMethod(),
-        event.getAddress(),
-        event.getIsError(),
-        event.getErrorMessage()};
+    Metrics.requestSeconds(requestEventFunction.apply(event), elapsedSeconds);
+  }
 
-    Metrics.requestSeconds(labels, elapsedSeconds);
+  /**
+   * Add a request event to be monitored with elapsed time using ChronoUnit.MILLIS as timeunit
+   *
+   * @param event properties of event to be monitored
+   * @param elapsedSeconds time in seconds to be register in metric
+   * @param bucketList array of double for bucket list in Dependency event
+   */
+  public void addRequestEvent(RequestEvent event, double elapsedSeconds, double[] bucketList) {
+    addRequestEvent(event, elapsedSeconds, bucketList, ChronoUnit.MILLIS);
+  }
+
+  /**
+   * Add a request event to be monitored with elapsed time using ChronoUnit.MILLIS as timeunit
+   *
+   * @param event properties of event to be monitored
+   * @param elapsedSeconds time in seconds to be register in metric
+   * @param bucketList array of double for bucket list in Dependency event
+   * @param metricUnit time unit for bucket list and metric
+   */
+  public void addRequestEvent(RequestEvent event, double elapsedSeconds, double[] bucketList, TemporalUnit metricUnit) {
+    Metrics.requestSeconds(requestEventFunction.apply(event), elapsedSeconds, bucketList, metricUnit);
   }
 
   /**
