@@ -67,12 +67,8 @@ public class FilterUtils {
   }
 
   public static String toPathWithParamId(ClientRequestContext request) {
-    if(request instanceof ClientRequestContextImpl requestContext
-        && requestContext.getRestClientRequestContext() != null
-        && requestContext.getRestClientRequestContext().getProperties() != null
-        && requestContext.getRestClientRequestContext().getProperties().containsKey("UrlPathTemplate")
-    ) {
-      return String.valueOf(requestContext.getRestClientRequestContext().getProperties().get("UrlPathTemplate"));
+    if(request.hasProperty("UrlPathTemplate")) {
+      return String.valueOf(request.getProperty("UrlPathTemplate"));
     }
 
     if (request.getProperty(REST_CLIENT_METHOD) instanceof Method method) {
