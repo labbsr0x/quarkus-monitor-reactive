@@ -16,13 +16,10 @@ import br.com.labbs.quarkusmonitor.reactive.util.FilterUtils;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class MetricsServiceRequestFilter implements ContainerRequestFilter {
-	
-	@Inject
-	ResourceInfo resourceInfo;
-	
+
 	@Override
 	public void filter(ContainerRequestContext request) throws IOException {
-		var pathWithId = FilterUtils.toPathWithParamId(request, resourceInfo);
+		var pathWithId = FilterUtils.toPathWithParamId(request);
 		var isValid = FilterUtils.validPath(pathWithId);
 
 		request.setProperty(FilterUtils.VALID_PATH_FOR_METRICS, isValid);
