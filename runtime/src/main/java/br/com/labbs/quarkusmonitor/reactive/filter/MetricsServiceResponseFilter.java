@@ -32,13 +32,13 @@ public class MetricsServiceResponseFilter implements ContainerResponseFilter {
 			if (containerRequestContext.getProperty(FilterUtils.TIMER_INIT_TIME_MILLISECONDS) != null) {
 				Instant init = (Instant) containerRequestContext.getProperty(FilterUtils.TIMER_INIT_TIME_MILLISECONDS);
 
-				Metrics.requestSeconds(labels, MonitorMetrics.INSTANCE.calcTimeElapsedInSeconds(init));
+				Metrics.requestSeconds(labels, MonitorMetrics.calcTimeElapsedInSeconds(init));
 			}
 		}
 	}
 
 	private boolean getValidPathFromRequest(ContainerRequestContext request) {
-		return Boolean.valueOf(
+		return Boolean.parseBoolean(
 				Optional.ofNullable(request.getProperty(FilterUtils.VALID_PATH_FOR_METRICS)).orElse("").toString());
 	}
 }

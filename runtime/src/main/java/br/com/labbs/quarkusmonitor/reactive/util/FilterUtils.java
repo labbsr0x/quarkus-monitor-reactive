@@ -17,6 +17,9 @@ import jakarta.ws.rs.ext.WriterInterceptorContext;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import io.micrometer.core.instrument.config.NamingConvention;
+import org.jboss.resteasy.reactive.client.impl.ClientRequestContextImpl;
+import org.jboss.resteasy.reactive.server.core.ResteasyReactiveRequestContext;
+import org.jboss.resteasy.reactive.server.jaxrs.ContainerRequestContextImpl;
 
 public class FilterUtils {
 
@@ -64,6 +67,10 @@ public class FilterUtils {
   }
 
   public static String toPathWithParamId(ClientRequestContext request) {
+    if(request.hasProperty("UrlPathTemplate")) {
+      return String.valueOf(request.getProperty("UrlPathTemplate"));
+    }
+
     if (request.getProperty(REST_CLIENT_METHOD) instanceof Method method) {
       return extractPathWithParamFromMethod(method, request.getUri().getPath());
     }
@@ -71,10 +78,16 @@ public class FilterUtils {
     return extractPathWithParamFromMethod(null, request.getUri().getPath());
   }
 
-  public static String toPathWithParamId(ContainerRequestContext request, ResourceInfo resourceInfo) {
-	  Method resourceMethod = resourceInfo.getResourceMethod();
-	  return extractPathWithParamFromMethod(resourceMethod, request.getUriInfo().getPath());
+  public static String toPathWithParamId(ContainerRequestContext request){
+    if(request instanceof ContainerRequestContextImpl containerRequestContext
+        && containerRequestContext.getServerRequestContext() instanceof  ResteasyReactiveRequestContext reactiveRequestContext
+        && reactiveRequestContext.getTarget() != null
+        && reactiveRequestContext.getTarget().getPath() != null) {
+      return reactiveRequestContext.getTarget().getPath().template;
+    }
+    return request.getUriInfo().getPath();
   }
+
 
   private static String extractPathWithParamFromMethod(Method method, String defaultPath) {
     String pathWithParam = "";
