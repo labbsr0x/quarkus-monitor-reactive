@@ -4,9 +4,11 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import br.com.labbs.quarkusmonitor.reactive.MonitorMetrics;
 import jakarta.inject.Named;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.client.ClientRequestContext;
@@ -20,8 +22,12 @@ import io.micrometer.core.instrument.config.NamingConvention;
 import org.jboss.resteasy.reactive.client.impl.ClientRequestContextImpl;
 import org.jboss.resteasy.reactive.server.core.ResteasyReactiveRequestContext;
 import org.jboss.resteasy.reactive.server.jaxrs.ContainerRequestContextImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FilterUtils {
+
+  private static final Logger LOG = LoggerFactory.getLogger(FilterUtils.class);
 
   private static final Pattern tagKeyChars = Pattern.compile("[^a-zA-Z0-9_]");
 
@@ -79,12 +85,24 @@ public class FilterUtils {
   }
 
   public static String toPathWithParamId(ContainerRequestContext request){
-    if(request instanceof ContainerRequestContextImpl containerRequestContext
-        && containerRequestContext.getServerRequestContext() instanceof  ResteasyReactiveRequestContext reactiveRequestContext
-        && reactiveRequestContext.getTarget() != null
-        && reactiveRequestContext.getTarget().getPath() != null) {
-      return reactiveRequestContext.getTarget().getPath().template;
+    try {
+      if (request instanceof ContainerRequestContextImpl containerRequestContext
+          && containerRequestContext.getServerRequestContext() instanceof ResteasyReactiveRequestContext reactiveRequestContext
+          && reactiveRequestContext.getTarget() != null
+          && reactiveRequestContext.getTarget().getResourceClass() != null
+      ) {
+
+        var resourceClass = reactiveRequestContext.getTarget().getResourceClass();
+        var pathTemplate = reactiveRequestContext.getTarget().getPath().template;
+        var pathClass = Optional.ofNullable(resourceClass.getAnnotation(Path.class)).isPresent() ? resourceClass.getAnnotation(Path.class).value() :  "";
+        var pathId = pathClass  + pathTemplate;
+
+        return pathId.replace("//", "/");
+      }
+    }catch (NullPointerException e){
+      LOG.error("Erro ao tentar obter o pathTemplate.", e);
     }
+
     return request.getUriInfo().getPath();
   }
 
