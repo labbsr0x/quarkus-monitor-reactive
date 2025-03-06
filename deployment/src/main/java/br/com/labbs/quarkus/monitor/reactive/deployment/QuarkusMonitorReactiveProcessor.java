@@ -54,7 +54,7 @@ class QuarkusMonitorReactiveProcessor {
 		MetricsB5Configuration configuration;
 
 	    public boolean getAsBoolean() {
-	        return configuration.enable;
+	        return configuration.enable();
 	    }
 	}
 }

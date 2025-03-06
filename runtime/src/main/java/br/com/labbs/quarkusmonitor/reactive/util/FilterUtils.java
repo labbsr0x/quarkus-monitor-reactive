@@ -30,7 +30,7 @@ public class FilterUtils {
   private static final Logger LOG = LoggerFactory.getLogger(FilterUtils.class);
 
   private static final Pattern tagKeyChars = Pattern.compile("[^a-zA-Z0-9_]");
-
+  public static final String TIMER_INIT_TIME_MILLISECONDS_CLIENT = "TIMER_INIT_TIME_MILLISECONDS_CLIENT";
   public static final String TIMER_INIT_TIME_MILLISECONDS = "TIMER_INIT_TIME_MILLISECONDS";
   public static final String STATUS_CODE = "STATUS_CODE";
   public static final String VALID_PATH_FOR_METRICS = "VALID_PATH_FOR_METRICS";

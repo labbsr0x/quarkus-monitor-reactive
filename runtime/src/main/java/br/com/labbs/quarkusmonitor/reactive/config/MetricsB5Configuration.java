@@ -3,42 +3,45 @@ package br.com.labbs.quarkusmonitor.reactive.config;
 import io.quarkus.runtime.annotations.ConfigItem;
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
+import io.smallrye.config.ConfigMapping;
+import io.smallrye.config.WithDefault;
 
-@ConfigRoot(phase = ConfigPhase.BUILD_AND_RUN_TIME_FIXED, name = "b5.monitor")
-public class MetricsB5Configuration {
+@ConfigRoot(phase = ConfigPhase.BUILD_AND_RUN_TIME_FIXED)
+@ConfigMapping(prefix = "b5.monitor")
+public interface MetricsB5Configuration {
     /**
      * Enable the extension.
      */
-    @ConfigItem(defaultValue = "true")
-    public boolean enable;
+    @WithDefault("true")
+    boolean enable();
 
     /**
      * Define the path where the metrics are exposed.
      */
-    @ConfigItem(defaultValue = "/metrics")
-    public String path;
+    @WithDefault("/metrics")
+    String path();
 
     /**
      * Define the path where the metrics are exposed.
      */
-    @ConfigItem(defaultValue = "0.1, 0.3, 1.5, 10.5")
-    public String buckets;
+    @WithDefault("0.1, 0.3, 1.5, 10.5")
+    String buckets();
 
     /**
      * Define the paths where the b5 metrics are not apply.
      */
-    @ConfigItem(defaultValue = "/metrics")
-    public String exclusions;
+    @WithDefault("/metrics")
+    String exclusions();
 
     /**
      * Define to turn on or off the http response size, default false
      */
-    @ConfigItem(defaultValue = "false")
-    public boolean enableHttpResponseSize;
+    @WithDefault("false")
+    boolean enableHttpResponseSize();
 
     /**
      * Define the key for error messages put in the request attribute
      */
-    @ConfigItem(defaultValue = "error-info")
-    public String errorMessage;
+    @WithDefault("error-info")
+    String errorMessage();
 }

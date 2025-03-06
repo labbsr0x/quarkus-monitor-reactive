@@ -2,6 +2,8 @@ package br.com.labbs.quarkusmonitor.reactive.util;
 
 import java.util.Objects;
 import java.util.Optional;
+
+import br.com.labbs.quarkusmonitor.reactive.filter.TagValuesRestClient;
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientResponseContext;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -34,17 +36,32 @@ public class TagsUtil {
     };
   }
 
+  public static String[] extractLabelValues(String name,ClientRequestContext request,
+                                            ClientResponseContext response) {
+    return extractLabelValues(name, request, response, FilterUtils.toPathWithParamId(request));
+  }
+
   public static String[] extractLabelValues(ClientRequestContext request,
-      ClientResponseContext response) {
+                                            ClientResponseContext response,String address) {
+    return extractLabelValues(FilterUtils.extractClassNameFromMethod(request), request, response, address);
+  }
+
+  public static String[] extractLabelValues(ClientRequestContext request,
+                                            ClientResponseContext response) {
+    return extractLabelValues(FilterUtils.extractClassNameFromMethod(request),
+            request,response,FilterUtils.toPathWithParamId(request));
+  }
+
+  public static String[] extractLabelValues(String name, ClientRequestContext request,
+                                            ClientResponseContext response,String address) {
     return new String[]{
-        FilterUtils.extractClassNameFromMethod(request),
-        HTTP,
-        Integer.toString(response.getStatus()),
-        request.getMethod(),
-        FilterUtils.toPathWithParamId(request),
-        Boolean.toString(isError(response.getStatus())),
-        extractMessageError(request, response)
-    };
+            name,
+            HTTP,
+            Integer.toString(response.getStatus()),
+            request.getMethod(),
+            address,
+            Boolean.toString(isError(response.getStatus())),
+            extractMessageError(request, response)};
   }
 
   public static String[] extractLabelValues(UriInfo uriInfo, Request request,
@@ -62,7 +79,7 @@ public class TagsUtil {
     };
   }
 
-  private static String extractMessageError(ContainerRequestContext request,
+  public static String extractMessageError(ContainerRequestContext request,
       ContainerResponseContext response) {
 
     if (Objects.nonNull(response.getHeaders()) && Objects.nonNull(response.getHeaders().getFirst(ERROR_MESSAGE_KEY))) {
@@ -99,7 +116,7 @@ public class TagsUtil {
     return "";
   }
 
-  private static boolean isError(int status) {
+  public static boolean isError(int status) {
     return status < 200 || status >= 400;
   }
 }

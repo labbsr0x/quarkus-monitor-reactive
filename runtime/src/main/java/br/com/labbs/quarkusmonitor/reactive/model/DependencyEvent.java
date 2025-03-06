@@ -2,7 +2,7 @@ package br.com.labbs.quarkusmonitor.reactive.model;
 
 public class DependencyEvent {
 
-  private String name;
+  private final String name;
   private String type;
   private String status;
   private String method;

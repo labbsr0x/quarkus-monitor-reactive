@@ -4,7 +4,7 @@
   <parent>
     <groupId>br.com.labbs</groupId>
     <artifactId>quarkus-monitor-reactive-parent</artifactId>
-    <version>3.8.3-SNAPSHOT</version>
+    <version>3.15.3-SNAPSHOT</version>
   </parent>
   <artifactId>quarkus-monitor-reactive</artifactId>
   <name>Quarkus Monitor Reactive - Runtime</name>
@@ -23,11 +23,11 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-reactive</artifactId>
+      <artifactId>quarkus-rest</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-rest-client-reactive</artifactId>
+      <artifactId>quarkus-rest-client</artifactId>
     </dependency>
   </dependencies>
   <build>
