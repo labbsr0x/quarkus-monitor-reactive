@@ -1,6 +1,7 @@
 package br.com.labbs.quarkusmonitor.reactive.filter;
 
 import java.lang.annotation.Annotation;
+import java.text.Normalizer;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -19,7 +20,6 @@ import org.jboss.resteasy.reactive.client.impl.ClientRequestContextImpl;
 import org.jboss.resteasy.reactive.client.impl.RestClientRequestContext;
 
 @Provider
-@Priority(Priorities.AUTHENTICATION)
 public class MetricsClientResponseFilter implements ClientResponseFilter {
 
     @Override
@@ -42,15 +42,15 @@ public class MetricsClientResponseFilter implements ClientResponseFilter {
         var annotation = getAnnotation(clientRequestContext);
 
         if(!annotation.name().isBlank() && annotation.address().isBlank()){
-            return TagsUtil.extractLabelValues(annotation.name(), clientRequestContext, clientResponseContext);
+            return TagsUtil.extractLabelValues(removeSpecialCharacters(annotation.name()), clientRequestContext, clientResponseContext);
         }
         if(annotation.name().isBlank() && !annotation.address().isBlank()){
-            return TagsUtil.extractLabelValues(clientRequestContext, clientResponseContext, annotation.address());
+            return TagsUtil.extractLabelValues(clientRequestContext, clientResponseContext, removeSpecialCharacters(annotation.address()));
         }
 
         if(!annotation.name().isBlank() && !annotation.address().isBlank()){
-            return TagsUtil.extractLabelValues(annotation.name(),
-                    clientRequestContext, clientResponseContext, annotation.address());
+            return TagsUtil.extractLabelValues(removeSpecialCharacters(annotation.name()),
+                    clientRequestContext, clientResponseContext, removeSpecialCharacters(annotation.address()));
         }
 
         return TagsUtil.extractLabelValues(clientRequestContext, clientResponseContext);
@@ -86,4 +86,9 @@ public class MetricsClientResponseFilter implements ClientResponseFilter {
                 });
     }
 
+    private static String removeSpecialCharacters(String input) {
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        String withoutAccent = normalized.replaceAll("[^\\p{ASCII}]", "");
+        return withoutAccent.replaceAll("\\s+", "_");
+    }
 }

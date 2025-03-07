@@ -10,7 +10,6 @@ import jakarta.ws.rs.client.ClientRequestFilter;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-@Priority(Priorities.AUTHENTICATION)
 public class MetricsClientRequestFilter implements ClientRequestFilter {
 
     @Override

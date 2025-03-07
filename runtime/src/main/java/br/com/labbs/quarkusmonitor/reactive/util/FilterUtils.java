@@ -46,6 +46,7 @@ public class FilterUtils {
           .map(String::trim)
           .toList();
   private static final String REST_CLIENT_METHOD = "org.eclipse.microprofile.rest.client.invokedMethod";
+  public static final String URL_PATH_TEMPLATE = "UrlPathTemplate";
 
   private FilterUtils() {
   }
@@ -73,8 +74,8 @@ public class FilterUtils {
   }
 
   public static String toPathWithParamId(ClientRequestContext request) {
-    if(request.hasProperty("UrlPathTemplate")) {
-      return String.valueOf(request.getProperty("UrlPathTemplate"));
+    if(!Optional.ofNullable(request.getProperty(URL_PATH_TEMPLATE)).orElse("").toString().isBlank()) {
+      return String.valueOf(request.getProperty(URL_PATH_TEMPLATE));
     }
 
     if (request.getProperty(REST_CLIENT_METHOD) instanceof Method method) {
