@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>br.com.labbs</groupId>
   <artifactId>quarkus-monitor-reactive-parent</artifactId>
-  <version>3.20.0</version>
+  <version>3.20.1-SNAPSHOT</version>
   <url>https://github.com/labbsr0x/quarkus-monitor-reactive/</url>
   <packaging>pom</packaging>
   <name>Quarkus Monitor Reactive - Parent</name>
@@ -56,7 +56,7 @@
     <connection>scm:git:git@github.com:labbsr0x/quarkus-monitor-reactive.git</connection>
     <developerConnection>scm:git:git@github.com:labbsr0x/quarkus-monitor-reactive.git</developerConnection>
     <url>https://github.com/labbsr0x/quarkus-monitor-reactive</url>
-    <tag>3.20.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   
