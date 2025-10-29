@@ -53,11 +53,12 @@
   </licenses>
   
   <scm>
-    <connection>scm:git:https://github.com/labbsr0x/quarkus-monitor-reactive/</connection>
-    <developerConnection>scm:git:https://github.com/labbsr0x/quarkus-monitor-reactive/</developerConnection>
-    <url>https://github.com/labbsr0x/quarkus-monitor-reactive/</url>
-    <tag>2.0.0</tag>
+    <connection>scm:git:git@github.com:labbsr0x/quarkus-monitor-reactive.git</connection>
+    <developerConnection>scm:git:git@github.com:labbsr0x/quarkus-monitor-reactive.git</developerConnection>
+    <url>https://github.com/labbsr0x/quarkus-monitor-reactive</url>
+    <tag>HEAD</tag>
   </scm>
+
   
   <developers>
   	<developer>
